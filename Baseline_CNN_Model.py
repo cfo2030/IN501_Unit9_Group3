@@ -22,3 +22,33 @@ for i in range(10):
     plt.xlabel(y_train[i]) # Shows the correct label for the image
 
 plt.show()
+
+# Create the baseline CNN model
+model = models.Sequential()
+
+# First convolution layer looking for image patterns
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+
+# First pooling layer to reduce image size
+model.add(layers.MaxPooling2D((2, 2)))
+
+# Second convolution layer looking for more detailed patterns
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+
+# Second pooling layer
+model.add(layers.MaxPooling2D((2, 2)))
+
+# Third convolution layer looking for even more detailed patterns
+model.add(layers.Conv2D(64, (3,3), activation='relu'))
+
+# Flatten the 2D feature maps into a 1D list
+model.add(layers.Flatten())
+
+# Dense hidden layer to help the model learn how the detected features connect to each digit
+model.add(layers.Dense(64, activation='relu'))
+
+# Output layer with 10 possible digit classes: 0 through 9
+model.add(layers.Dense(10, activation='softmax'))
+
+# Display the model architecture
+model.summary()
