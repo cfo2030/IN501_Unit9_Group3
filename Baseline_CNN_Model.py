@@ -11,3 +11,14 @@ x_train, x_test = x_train / 255.0, x_test / 255.0 # normalize image pixel values
 x_train = x_train.reshape(-1, 28, 28, 1) # Reshape normalized training images (28 x 28 pixels)
 x_test = x_test.reshape(-1, 28, 28, 1) # Reshape normalized testing images (28 x 28 pixels)
 
+# Displaying the first 10 images
+plt.figure(figsize=(12, 6))
+for i in range(10):
+    plt.subplot(2, 5, i + 1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(x_train[i].reshape(28, 28), cmap="gray") # Shows the images in grayscale
+    plt.xlabel(y_train[i]) # Shows the correct label for the image
+
+plt.show()
