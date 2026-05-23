@@ -53,7 +53,6 @@ model.add(layers.Dense(10, activation='softmax'))
 # Display the model architecture
 model.summary()
 
-
 # Compile the CNN model
 model.compile(
     optimizer='adam',
