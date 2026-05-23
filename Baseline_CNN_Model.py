@@ -19,7 +19,7 @@ for i in range(10):
     plt.yticks([])
     plt.grid(False)
     plt.imshow(x_train[i].reshape(28, 28), cmap="gray") # Shows the images in grayscale
-    plt.xlabel(f"Actual: {y_train[i]}") # Shows the correct label for the image
+    plt.xlabel(y_train[i]) # Shows the correct label for the image
 
 plt.show()
 
