@@ -52,3 +52,49 @@ model.add(layers.Dense(10, activation='softmax'))
 
 # Display the model architecture
 model.summary()
+
+
+# Compile the CNN model
+model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# Train the model on the training data
+history = model.fit(
+    x_train,
+    y_train,
+    epochs=5,
+    validation_data=(x_test, y_test)
+)
+
+# Evaluate the model on the test data
+test_loss, test_accuracy = model.evaluate(x_test, y_test)
+
+# Print the test results
+print("Test Loss:", test_loss)
+print("Test Accuracy:", test_accuracy)
+
+# Generate predictions using the test data
+predictions = model.predict(x_test)
+
+# Display the first 10 test images with predicted labels
+plt.figure(figsize=(12, 6))
+
+for i in range(10):
+    plt.subplot(2, 5, i + 1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+
+    # Show the test image in grayscale
+    plt.imshow(x_test[i].reshape(28, 28), cmap="gray")
+
+    # Get the predicted label from the model
+    predicted_label = np.argmax(predictions[i])
+
+    # Show the predicted label and actual label
+    plt.xlabel("Pred: " + str(predicted_label) + " Actual: " + str(y_test[i]))
+
+plt.show()
