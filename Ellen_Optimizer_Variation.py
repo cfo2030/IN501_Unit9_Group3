@@ -1,10 +1,10 @@
-# Parameter change: Loss function from sparse categorical crossentropy to categorical crossentropy
-# Hypothesis: Categorical crossentropy will increase model training time due to additional compute overhead with one-hot
-# encoded labels; model performance will remain the same
+# Parameter change: Adam optimizer to stochastic gradient descent (SGD) optimizer
+# Hypothesis: Model will train faster as SGD updates model weights with small batches instead of the whole training
+# dataset; model performance will degrade because SGD does not use an adaptive learning rate like Adam,
+# it uses a fixed learning rate that needs to be adjusted by the user for optimal results
 
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras import layers, models
-from tensorflow.keras.utils import to_categorical
 import matplotlib.pyplot as plt
 import numpy as np
 import time
@@ -61,24 +61,19 @@ model.summary()
 
 # Compile the CNN model
 model.compile(
-    optimizer='adam',
-    loss='categorical_crossentropy', # requires target to be one-hot encoded
+    optimizer='sgd',
+    loss='sparse_categorical_crossentropy',
     metrics=['accuracy']
 )
 
 start_time = time.time()
 
-# One Hot Encode MNIST labels (Loss: categorical_crossentropy)
-num_class = 10
-y_train_encoded = to_categorical(y_train, num_class)
-y_test_encoded = to_categorical(y_test, num_class)
-
 # Train the model on the training data
 history = model.fit(
     x_train,
-    y_train_encoded,
+    y_train,
     epochs=5,
-    validation_data=(x_test, y_test_encoded)
+    validation_data=(x_test, y_test)
 )
 
 end_time = time.time()
@@ -86,7 +81,7 @@ end_time = time.time()
 print(f"Total training time: {end_time-start_time:.2f} seconds")
 
 # Evaluate the model on the test data
-test_loss, test_accuracy = model.evaluate(x_test, y_test_encoded)
+test_loss, test_accuracy = model.evaluate(x_test, y_test)
 
 # Print the test results
 print("Test Loss:", test_loss)
